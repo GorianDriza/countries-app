@@ -1,0 +1,77 @@
+.main {
+  .title {
+    padding: 1rem;
+  }
+  .cardList {
+    display: block;
+    padding: 0;
+    list-style: none;
+    .card {
+      position: relative;
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+      max-width: calc(24% - 2rem);
+      margin: 1rem;
+      border: 2px solid #d9d9d9;
+      transition: transform 0.1s ease-in-out, box-shadow 0.1s;
+      cursor: pointer;
+      @media screen and (max-width: 1024px){
+        max-width: calc(32% - 2rem);
+      }
+      @media screen and (max-width: 768px){
+        max-width: calc(49% - 2rem);
+      }
+      @media screen and (max-width: 425px){
+        max-width: calc(99% - 2rem);
+      }
+      &:hover {
+        transform: translateY(-0.5rem) scale(1.0125);
+        box-shadow: 0 2em 3rem -1rem rgba(0, 0, 0, 0.5);
+      }
+      .name {
+        position: absolute;
+        background-color: #fff;
+        top: -13px;
+        left: 10px;
+        padding: 0 5px;
+      }
+      .cardDetails {
+        .imageBlock {
+          display: flex;
+          padding: 1rem;
+          > div {
+            width: 50%;
+            text-align: center;
+            span {
+              font-size: 12px;
+            }
+            .cardImage {
+              display: block;
+              background: #fff center center no-repeat;
+              background-size: contain;
+              width: 100px;
+              height: 100px;
+              margin: 0 auto;
+              border: 1px solid #efefef;
+            }
+          }
+        }
+        .detailBlock {
+          text-align: left;
+          margin-top: 15px;
+          p {
+            margin: 0;
+            font-size: 13px;
+            padding: 8px 1rem;
+            border-top: 1px solid #dedede;
+            border-bottom: 1px solid #dedede;
+            &:last-child {
+              border-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
