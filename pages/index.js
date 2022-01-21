@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from '../styles/Home.module.scss';
 
 export default function Home(props) {
@@ -16,12 +16,12 @@ export default function Home(props) {
 
   return (
     <div className={styles.homepage}>
-      
+
       <h1 className={styles.title}>Welcome To Countries App</h1>
       <p className={styles.subtitle}>Here you can find all the details of a country</p>
 
       <button className={styles.goTo} onClick={() => goToCountries()}>
-        <span>Go to countries</span>  
+        <span>Go to countries</span>
         <div className={styles.loading}>
           <div className={styles.arrow}></div>
         </div>

@@ -1,6 +1,36 @@
 .main {
+  padding: 1rem;
   .title {
-    padding: 1rem;
+    display: flex;
+    align-items: center;
+    .span {
+      margin-left: 10px;
+      font-size: 30px;
+    }
+    .filters {
+      margin-left: 30px;
+      display: flex;
+      align-items: center;
+      .input {
+        border: 1px solid #dedede;
+        padding: 5px;
+        border-radius: 4px;
+        border-right: 0;
+        outline: none;
+        height: 25px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+      }
+      .button {
+        border: 1px solid #dedede;
+        background-color: #dedede;
+        height: 37px;
+        width: 37px;
+        padding: 5px;
+        cursor: pointer;
+      }
+    }
   }
   .cardList {
     display: block;
@@ -22,7 +52,7 @@
       @media screen and (max-width: 768px){
         max-width: calc(49% - 2rem);
       }
-      @media screen and (max-width: 425px){
+      @media screen and (max-width: 640px){
         max-width: calc(99% - 2rem);
       }
       &:hover {
@@ -35,6 +65,7 @@
         top: -13px;
         left: 10px;
         padding: 0 5px;
+        font-size: 13px;
       }
       .cardDetails {
         .imageBlock {
@@ -43,8 +74,9 @@
           > div {
             width: 50%;
             text-align: center;
-            span {
+            p {
               font-size: 12px;
+              margin: 0;
             }
             .cardImage {
               display: block;

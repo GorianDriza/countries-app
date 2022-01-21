@@ -1,26 +1,33 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { getCountriesList } from '../api/countries';
+import { getCountriesList, getCountryByName } from '../api/countries';
 import Loader from '../../components/loader';
+import Image from 'next/image';
+import { BsSearch } from 'react-icons/bs';
 import styles from './Countries.module.scss'
 
 export default function Countries(props) {
   const router = useRouter();
   const [countries, setCountries] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [search, setSearch] = useState('');
+
 
   // handle change of title
   useEffect(() => {
     props.title('Countries List');
     getListOfCountries();
+
+    return () => { setCountries([]) }
   }, []);
 
   const getListOfCountries = () => {
     getCountriesList().then((response) => {
       if (response && response.length > 0) setCountries(response);
+
       setTimeout(() => {
         setLoader(true);
-      }, 2000)
+      }, 1000)
     })
   }
 
@@ -31,12 +38,48 @@ export default function Countries(props) {
     })
   }
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') searchForContry();
+  }
+
+  const searchForContry = () => {
+    if (search === '') {
+      getCountriesList().then((response) => {
+        if (response && response.length > 0) setCountries(response);
+      })
+    } else {
+      getCountryByName(search).then((response) => {
+        if (response && response.length > 0) setCountries(response);
+      })
+    }
+  }
+
   return (
     <div className={styles.main}>
       {loader ? null : <Loader />}
       {loader &&
         <div>
-          <h2 className={styles.title}>Countries App</h2>
+          <h2 className={styles.title}>
+            <Image
+              src="/icons8-country-64.png"
+              alt="Logo"
+              width={50}
+              height={50}
+              objectFit="contain"
+              quality={100}
+            />
+            <span className={styles.span}>Countries App</span>
+            <div className={styles.filters}>
+              <input
+                className={styles.input}
+                placeholder='Search Contry'
+                type="text"
+                onChange={(event) => setSearch(event.target.value)}
+                onKeyPress={(event) => handleKeyPress(event)}
+              />
+              <button className={styles.button} onClick={() => searchForContry()}><BsSearch /></button>
+            </div>
+          </h2>
           <ul className={styles.cardList}>
             {
               (countries && countries.length > 0) ?
@@ -48,12 +91,28 @@ export default function Countries(props) {
                       <div className={styles.cardDetails}>
                         <div className={styles.imageBlock}>
                           <div>
-                            <img className={styles.cardImage} src={country.flags.svg} alt={country.name.common} />
-                            <span>Flag</span>
+                            <Image
+                              src={country.flags.svg}
+                              alt={country.name.common}
+                              className={styles.cardImage}
+                              width={100}
+                              height={100}
+                              objectFit="contain"
+                              quality={100}
+                            />
+                            <p>Flag</p>
                           </div>
                           <div>
-                            <img className={styles.cardImage} src={country.coatOfArms.svg ? country.coatOfArms.svg : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'} alt={country.name.common} />
-                            <span>National emblem</span>
+                            <Image
+                              src={country.coatOfArms.svg ? country.coatOfArms.svg : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'}
+                              alt={country.name.common}
+                              className={styles.cardImage}
+                              width={100}
+                              height={100}
+                              objectFit="contain"
+                              quality={100}
+                            />
+                            <p>National emblem</p>
                           </div>
                         </div>
                         <div className={styles.detailBlock}>
@@ -65,7 +124,7 @@ export default function Countries(props) {
                     </li>
                   )
                 })
-                : 'Nuk u gjend'
+                : 'Something went wrong'
             }
           </ul>
         </div>
