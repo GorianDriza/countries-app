@@ -85,7 +85,7 @@ export default function Countries(props) {
               (countries && countries.length > 0) ?
                 countries.map((country) => {
                   return (
-                    <li key={country.cca2} className={styles.card}
+                    <li key={country.cca2} className={styles.card} id={country.cca2}
                       onClick={() => goToCountryDetails(country.cca2)}>
                       <span className={styles.name}>{country.name.common}</span>
                       <div className={styles.cardDetails}>

@@ -52,6 +52,8 @@ export default function Country(props) {
 
   const renderCurrencies = (currencies) => {
     let currencyString = '';
+    if (!currencies) return 'No currency found';
+
     Object.keys(currencies).forEach((currency, index) => {
       currencyString += currencies[currency].symbol + ' (' + currencies[currency].name + ') ' + ((Object.keys(currencies).length - 1) !== index ? ' &#183; ' : '');;
     });
@@ -61,6 +63,8 @@ export default function Country(props) {
 
   const renderLanguages = (languages) => {
     let languageString = '';
+    if (!languages) return 'No languages found';
+
     Object.keys(languages).forEach((language, index) => {
       languageString += languages[language] + ((Object.keys(languages).length - 1) !== index ? ' &#183; ' : '');
     });
@@ -69,15 +73,17 @@ export default function Country(props) {
   }
 
   const getBordersDetails = (borderCode) => {
+
     if (borderCode && borderCode.length > 0) {
       getCountriesList().then((response) => {
         if (response && response.length > 0) {
           const bordersArray = response.filter((country) => borderCode.includes(country.cca3));
           setBorders(bordersArray);
         }
-
         setSmallLoader(true);
       });
+    } else {
+      setSmallLoader(true);
     }
   }
 
@@ -160,28 +166,30 @@ export default function Country(props) {
             <h4>Bordering Countries</h4>
             <div>
               {smallLoader ?
-                borders.map((country) => {
-                  return (
-                    <div key={country.cca2} className={styles.border} onClick={() => goToCountry(country.cca2)}>
-                      <div>
-                        <Image
-                          src={country.flags.svg}
-                          alt={country.name.common}
-                          className={styles.image}
-                          width={70}
-                          height={70}
-                          objectFit="contain"
-                          quality={100}
-                        />
+                borders.length > 0 ?
+                  borders.map((country) => {
+                    return (
+                      <div key={country.cca2} className={styles.border} onClick={() => goToCountry(country.cca2)}>
+                        <div>
+                          <Image
+                            src={country.flags.svg}
+                            alt={country.name.common}
+                            className={styles.image}
+                            width={70}
+                            height={70}
+                            objectFit="contain"
+                            quality={100}
+                          />
+                        </div>
+                        <div className={styles.borderDetails}>
+                          <p><b>Name:</b> {country.name.common}</p>
+                          <p><b>Capital:</b> {country.capital ? country.capital : 'No Capital Found'}</p>
+                          <p><b>Population:</b> {country.population > 0 ? country.population.toLocaleString() : 'No Population Found'}</p>
+                        </div>
                       </div>
-                      <div className={styles.borderDetails}>
-                        <p><b>Name:</b> {country.name.common}</p>
-                        <p><b>Capital:</b> {country.capital ? country.capital : 'No Capital Found'}</p>
-                        <p><b>Population:</b> {country.population > 0 ? country.population.toLocaleString() : 'No Population Found'}</p>
-                      </div>
-                    </div>
-                  )
-                })
+                    )
+                  })
+                  : 'No borders found'
                 : <SmallLoader />}
             </div>
           </div>
